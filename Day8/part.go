@@ -11,19 +11,46 @@ func main() {
 	input := read()
 	directions, input := getDirections(input)
 	elements := getElements(input)
-	fmt.Println(len(directions))
-	fmt.Println(len(elements))
 	res := calc(elements, directions)
 	fmt.Println(res)
 }
 
-func calc(element map[string][2]string, directions string) int {
-	steps := 0
+func calc(element map[string][2]string, directions string) int64 {
+	var steps int64
 	iter := 0
 	keys := createKeys(element)
-	fmt.Println(len(keys))
+	// var res []int
+	// for i, _ := range keys {
+	// 	for {
+	// 		if keys[i][2] == 'Z' {
+	// 			break
+	// 		}
+
+	// 		if iter >= len(directions) {
+	// 			iter = 0
+	// 		}
+	// 		var idx int
+	// 		if directions[iter] == 'L' {
+	// 			idx = 0
+	// 		} else {
+	// 			idx = 1
+	// 		}
+	// 		keys[i] = element[keys[i]][idx]
+
+	// 		steps++
+	// 		iter++
+	// 	}
+	// 	fmt.Println(steps)
+	// 	res = append(res, int(steps))
+	// 	steps = 0
+	// 	iter = 0
+	// }
+
 	for {
-		for i, key := range keys {
+		for i, _ := range keys {
+			if keys[i][2] == 'Z' {
+				fmt.Println(keys[i])
+			}
 			if iter >= len(directions) {
 				iter = 0
 			}
@@ -33,17 +60,17 @@ func calc(element map[string][2]string, directions string) int {
 			} else {
 				idx = 1
 			}
-			keys[i] = element[key][idx]
+			keys[i] = element[keys[i]][idx]
 		}
 		finished := areAllFinished(keys)
 
+		steps++
+		iter++
 		if finished {
 			break
 		}
-
-		steps++
-		iter++
 	}
+
 	return steps
 }
 
@@ -91,7 +118,7 @@ func getDirections(input []string) (string, []string) {
 }
 
 func read() []string {
-	file, err := os.Open("C:\\Users\\Mikolaj Karwacki\\Documents\\awesomeProject\\Day8\\input.txt")
+	file, err := os.Open("C:\\Aoc2023\\Aoc2023\\Day8\\input.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 	}
