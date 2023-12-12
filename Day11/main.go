@@ -3,36 +3,69 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
-	"unicode"
 )
 
 func main() {
+	input := read()
+	matrix := createGalaxyMatrix(input)
+	columns := createColumnsMap(matrix)
+	rows := createRowsMap(matrix)
+	indexes := findIndexesOfGalaxies(matrix)
+	res := calc(rows, columns, indexes)
+	fmt.Println(res)
 
 }
 
-func calc(rows, columns map[int]int, maps [][]int) int {
+func calc(rows, columns map[int]int, galaxies [][]int) int {
 	result := 0
+	var pairs [][]int
 
-	for i, v := range maps {
+	for i := range galaxies {
+		for j := i + 1; j < len(galaxies); j++ {
+			temp := []int{i, j}
+			pairs = append(pairs, temp)
+		}
 
 	}
+
+	for i := range pairs {
+		a := galaxies[pairs[i][0]]
+		b := galaxies[pairs[i][1]]
+
+		xStart := int(math.Min(float64(a[0]), float64(b[0])))
+		xEnd := int(math.Max(float64(a[0]), float64(b[0])))
+
+		fmt.Printf("%d %d ", xStart, xEnd)
+		fmt.Println()
+
+		yStart := int(math.Min(float64(a[1]), float64(b[1])))
+		yEnd := int(math.Max(float64(a[1]), float64(b[1])))
+
+		for j := xStart; j < xEnd; j++ {
+			result += rows[j]
+		}
+
+		for j := yStart; j < yEnd; j++ {
+			result += columns[j]
+		}
+	}
+
+	return result
 }
 
 func findIndexesOfGalaxies(input [][]rune) [][]int {
 	var result [][]int
 
 	for i, v := range input {
-		var temp []int
 		for j, char := range v {
-			if unicode.IsDigit(char) {
-				temp[0] = i
-				temp[1] = j
+			if char == '#' {
+				temp := []int{i, j}
+				result = append(result, temp)
 			}
 		}
-		if len(temp) > 0 {
-			result = append(result, temp)
-		}
+
 	}
 
 	return result
@@ -41,10 +74,13 @@ func findIndexesOfGalaxies(input [][]rune) [][]int {
 func createColumnsMap(input [][]rune) map[int]int {
 	result := make(map[int]int)
 
-	for i, v := range input {
+	rows := len(input)
+	columns := len(input[0])
+
+	for i := 0; i < columns; i++ {
 		isEmpty := true
-		for j, _ := range v {
-			if input[j][i] != '.' {
+		for j := 0; j < rows; j++ {
+			if input[j][i] == '#' {
 				isEmpty = false
 			}
 		}
@@ -63,8 +99,8 @@ func createRowsMap(input [][]rune) map[int]int {
 
 	for i, v := range input {
 		isEmpty := true
-		for _, char := range v {
-			if char != '.' {
+		for j, _ := range v {
+			if input[i][j] == '#' {
 				isEmpty = false
 			}
 		}
@@ -91,7 +127,7 @@ func createGalaxyMatrix(input []string) [][]rune {
 }
 
 func read() []string {
-	file, err := os.Open("C:\\Aoc2023\\Aoc2023\\Day8\\input.txt")
+	file, err := os.Open("C:\\Aoc2023\\Aoc2023\\Day11\\input.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 	}

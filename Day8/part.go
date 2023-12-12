@@ -76,6 +76,8 @@ func calc(element map[string][2]string, directions string) int64 {
 
 func areAllFinished(keys []string) bool {
 	result := true
+	fmt.Println("New check")
+	fmt.Println(keys)
 	for _, key := range keys {
 		if key[2] != 'Z' {
 			result = false
