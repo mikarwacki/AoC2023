@@ -30,6 +30,9 @@ func calc(rows, columns map[int]int, galaxies [][]int) int {
 
 	}
 
+	fmt.Println(pairs)
+	fmt.Println(galaxies)
+
 	for i := range pairs {
 		a := galaxies[pairs[i][0]]
 		b := galaxies[pairs[i][1]]
@@ -37,17 +40,24 @@ func calc(rows, columns map[int]int, galaxies [][]int) int {
 		xStart := int(math.Min(float64(a[0]), float64(b[0])))
 		xEnd := int(math.Max(float64(a[0]), float64(b[0])))
 
+		fmt.Println("X axis")
 		fmt.Printf("%d %d ", xStart, xEnd)
 		fmt.Println()
 
 		yStart := int(math.Min(float64(a[1]), float64(b[1])))
 		yEnd := int(math.Max(float64(a[1]), float64(b[1])))
 
-		for j := xStart; j < xEnd; j++ {
+		for j := xStart + 1; j < xEnd; j++ {
+			fmt.Println(rows[j])
 			result += rows[j]
 		}
 
-		for j := yStart; j < yEnd; j++ {
+		fmt.Println("Y axis")
+		fmt.Printf("%d %d ", yStart, yEnd)
+		fmt.Println()
+
+		for j := yStart + 1; j < yEnd; j++ {
+			fmt.Println(columns[j])
 			result += columns[j]
 		}
 	}
