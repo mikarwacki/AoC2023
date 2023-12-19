@@ -15,7 +15,6 @@ func main() {
 	indexes := findIndexesOfGalaxies(matrix)
 	res := calc(rows, columns, indexes)
 	fmt.Println(res)
-
 }
 
 func calc(rows, columns map[int]int, galaxies [][]int) int {
